@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Agendamento de Coleta</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      padding: 20px;
+    }
+    h2 {
+      color: #2d6a4f;
+    }
+    form {
+      background: white;
+      padding: 20px;
+      max-width: 500px;
+      margin: auto;
+      border-radius: 8px;
+      box-shadow: 0 0 10px #ccc;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0 20px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      background-color: #2d6a4f;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+    }
+    .success, .error {
+      text-align: center;
+      font-weight: bold;
+    }
+    .success {
+      color: green;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Agendamento de Coleta de Recicláveis</h2>
+  <form id="agendamentoForm">
+    <label for="nome">Nome completo:</label>
+    <input type="text" id="nome" name="nome" required maxlength="100"/>
+
+    <label for="endereco">Endereço completo:</label>
+    <textarea id="endereco" name="endereco" required maxlength="200"></textarea>
+
+    <label for="tipo_material">Tipo de material:</label>
+    <select id="tipo_material" name="tipo_material" required>
+      <option value="">--Selecione--</option>
+      <option value="papel">Papel</option>
+      <option value="plástico">Plástico</option>
+      <option value="vidro">Vidro</option>
+      <option value="metal">Metal</option>
+      <option value="orgânico">Orgânico</option>
+    </select>
+
+    <label for="data_agendamento">Data da coleta:</label>
+    <input type="date" id="data_agendamento" name="data_agendamento" required/>
+
+    <label for="telefone">Telefone:</label>
+    <input type="tel" id="telefone" name="telefone" required maxlength="20" placeholder="(00) 00000-0000" />
+
+    <label for="email">E-mail (opcional):</label>
+    <input type="email" id="email" name="email" maxlength="100" placeholder="exemplo@dominio.com" />
+
+    <button type="submit">Agendar Coleta</button>
+
+    <div class="success" id="successMsg"></div>
+    <div class="error" id="errorMsg"></div>
+  </form>
+
+  <script>
+    document.getElementById('agendamentoForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+
+      const nome = document.getElementById('nome').value.trim();
+      const endereco = document.getElementById('endereco').value.trim();
+      const tipo_material = document.getElementById('tipo_material').value;
+      const data_agendamento = document.getElementById('data_agendamento').value;
+      const telefone = document.getElementById('telefone').value.trim();
+      const email = document.getElementById('email').value.trim();
+
+      const hoje = new Date().toISOString().split('T')[0];
+      if (data_agendamento < hoje) {
+        document.getElementById('errorMsg').textContent = 'A data deve ser igual ou maior que hoje.';
+        document.getElementById('successMsg').textContent = '';
+        return;
+      }
+
+      const payload = {
+        nome,
+        endereco,
+        tipo_material,
+        data_agendamento,
+        telefone,
+        email: email || null
+      };
+
+      try {
+        const res = await fetch('http://localhost:3000/agendamentos', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (res.ok) {
+          document.getElementById('successMsg').textContent = 'Agendamento realizado com sucesso!';
+          document.getElementById('errorMsg').textContent = '';
+          e.target.reset();
+        } else {
+          const err = await res.json();
+          document.getElementById('errorMsg').textContent = err.message || 'Erro ao agendar.';
+          document.getElementById('successMsg').textContent = '';
+        }
+      } catch (error) {
+        document.getElementById('errorMsg').textContent = 'Erro ao conectar com o servidor.';
+        document.getElementById('successMsg').textContent = '';
+      }
+    });
+  </script>
+
+</body>
+</html>
