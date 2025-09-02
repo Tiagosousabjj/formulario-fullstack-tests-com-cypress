@@ -1,9 +1,11 @@
-// backend/cypress.config.js
 const { defineConfig } = require("cypress");
 
 module.exports = defineConfig({
   e2e: {
-    specPattern: "formulario.spec.js",
+    setupNodeEvents(on, config) {
+      // eventos Node
+    },
+    specPattern: "**/formulario.spec.js", // glob correto
     supportFile: false,
     defaultCommandTimeout: 4000,
     pageLoadTimeout: 60000,
