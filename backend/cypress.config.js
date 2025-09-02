@@ -4,16 +4,16 @@ const path = require("path");
 module.exports = defineConfig({
   e2e: {
     setupNodeEvents(on, config) {
-      // Aqui você pode adicionar event listeners se precisar
+      // Event listeners podem ser adicionados aqui
     },
-    // Padrão para encontrar todos os testes .cy.js na pasta e2e
-    specPattern: path.resolve(__dirname, "../cypress/e2e/**/*.cy.js"),
-    // Caminho para o support file
+    // Aceita todos os arquivos .js dentro de e2e, incluindo .spec.js
+    specPattern: path.resolve(__dirname, "../cypress/e2e/**/*.js"),
+    // Caminho correto para o support file
     supportFile: path.resolve(__dirname, "../cypress/support/e2e.js"),
-    // Timeout padrão (opcional)
+    // Timeout padrão opcional
     defaultCommandTimeout: 8000,
     pageLoadTimeout: 60000,
-    // Browser padrão (opcional)
+    // Browser padrão opcional
     browser: "chrome",
   },
 });
