@@ -67,7 +67,7 @@ jobs:
 
     - name: Run Cypress Tests
       working-directory: ./backend
-      run: npx cypress run --config-file ./cypress.config.js
+      run: npx cypress run --config-file ./cypress.config.js --headless
 
     - name: Generate Cypress Report
       working-directory: ./backend
