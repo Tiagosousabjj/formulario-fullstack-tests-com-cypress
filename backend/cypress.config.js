@@ -1,13 +1,14 @@
+// backend/cypress.config.js
 import { defineConfig } from "cypress";
 
 export default defineConfig({
   e2e: {
     setupNodeEvents(on, config) {
-      // eventos Node, se necessário
+      // configurar eventos Node se precisar
     },
-    // Caminho relativo para os testes dentro de backend
+    // arquivo de teste que está diretamente em backend/
     specPattern: "formulario.spec.js",
-    supportFile: false, // como não há pasta support
+    supportFile: false,
     defaultCommandTimeout: 4000,
     pageLoadTimeout: 60000,
     browser: "chrome",
