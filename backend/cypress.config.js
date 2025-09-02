@@ -1,13 +1,13 @@
-const { defineConfig } = require("cypress");
+import { defineConfig } from "cypress";
 
-module.exports = defineConfig({
+export default defineConfig({
   e2e: {
     setupNodeEvents(on, config) {
-      // aqui você pode configurar eventos do Node se precisar
+      // eventos Node, se necessário
     },
-    // Aponta diretamente para a pasta de testes do formulário
-    specPattern: "cypress/e2e/1-getting-started/formulario/**/*.js",
-    supportFile: "cypress/support/e2e.js",
+    // Caminho relativo para os testes dentro de backend
+    specPattern: "formulario.spec.js",
+    supportFile: false, // como não há pasta support
     defaultCommandTimeout: 4000,
     pageLoadTimeout: 60000,
     browser: "chrome",
