@@ -1,0 +1,80 @@
+name: CI - Cypress Form Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  cypress-tests:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: agendamentos_db
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 20
+
+    - name: Install Backend Dependencies
+      working-directory: ./backend
+      run: |
+        npm install
+        npm install --save-dev cypress mochawesome
+
+    - name: Wait for PostgreSQL
+      run: |
+        until pg_isready -h localhost -p 5432; do
+          echo "Waiting for PostgreSQL..."
+          sleep 2
+        done
+
+    - name: Setup Database
+      run: |
+        psql -h localhost -U postgres -d agendamentos_db -c "
+        CREATE TABLE IF NOT EXISTS agendamentos (
+          id SERIAL PRIMARY KEY,
+          nome VARCHAR(100) NOT NULL,
+          endereco VARCHAR(200) NOT NULL,
+          tipo_material VARCHAR(50) NOT NULL,
+          data_agendamento DATE NOT NULL,
+          telefone VARCHAR(20) NOT NULL,
+          email VARCHAR(100),
+          criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        );"
+      env:
+        PGPASSWORD: postgres
+
+    - name: Run Cypress Tests
+      working-directory: ./backend
+      run: npx cypress run --config-file ./cypress.config.js --spec "../cypress/e2e/formulario.spec.js"
+
+    - name: Generate Cypress Report
+      working-directory: ./backend
+      run: npx cypress run --config-file ./cypress.config.js --reporter mochawesome --reporter-options reportDir=../cypress/reports,overwrite=false,html=true,json=true
+
+    - name: Upload Cypress Report
+      uses: actions/upload-artifact@v4
+      with:
+        name: cypress-report
+        path: ./cypress/reports
