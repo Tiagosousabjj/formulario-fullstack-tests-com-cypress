@@ -2,7 +2,6 @@
   "name": "agendamento-backend",
   "version": "1.0.0",
   "main": "server.js",
-  "type": "module",
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
@@ -16,6 +15,6 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.22",
-    "cypress": "^15.0.0"
+    "cypress": "^15.9.0"
   }
 }
