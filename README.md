@@ -1,34 +1,85 @@
-# Processo seletivo - QA
+Sistema de Agendamento de Coleta de Materiais Recicláveis
 
-Bem vindo, candidato. 
+Este projeto consiste em uma aplicação completa para agendamento de coletas de materiais recicláveis. Ele permite que o cidadão informe dados básicos e agende a coleta do seu material diretamente por meio de um formulário simples e intuitivo. O sistema foi desenvolvido com tecnologias modernas como HTML, CSS, JavaScript, Node.js, Express e banco de dados PostgreSQL. Além disso, conta com testes automatizados usando o Cypress para garantir a qualidade das funcionalidades.
 
-Estamos felizes que você esteja participando do processo seletivo para a vaga de QA do Senai - Soluções Digitais.
+Tecnologias Utilizadas:
 
-A prova deverá utilizar as seguintes tecnologias: 
-- Linguagem de programação orientada a objeto
-- Banco de dados PostgreSQL
-- GIT
+HTML5 e CSS3 para a criação da interface do usuário
 
-Na etapa da entrevista deverá ser apresentado a aplicação em funcionamento.
+JavaScript moderno (ES6+) para comportamento dinâmico no frontend
 
-## Instruções para a execução da prova
+Node.js e Express no backend para criação da API REST
 
-***O documento com o estudo de caso do que precisa ser desenvolvido será enviado por e-mail no horário previsto em edital.***
+PostgreSQL como banco de dados relacional
 
-A prova será uma aplicação web dividida em backend e frontend. O sistema deve ser desenvolvido utilizando uma das seguintes linguagens orientadas a objeto: Java, PHP ou Javascript. O backend e frontend podem ser de linguagens diferentes. O banco de dados deverá ser o PostgreSQL.
+Cypress para testes automatizados de ponta a ponta
 
-Fica a escolha do candidato quais frameworks e servidores serão utilizados, desde que seja uma aplicação web. 
+Day.js para manipulação segura de datas
 
-***O Banco utilizado na prova deverá ser PostgreSQL.***
+Funcionalidades do Sistema:
 
-Esse repositório possui apenas esse Readme com as instruções da prova. No entanto, **todo desenvolvimento deve ser commitado nesse repositório** até a data citada no edital.
+Cadastro de agendamentos de coleta por meio de um formulário web
 
-Por fim, altere esse arquivo com as instruções de como poderemos testar o seu código (quais libs usar, qual servidor, etc) abaixo.
+Validação de campos obrigatórios (nome, endereço, tipo de material, data, telefone)
 
-## Informações extras
+Restrições de data (não permite agendar coletas para datas passadas)
 
-- Descreva ao final deste documento (Readme.md) o detalhamento de funcionalidades implementadas, sejam elas já descritas na modelagem e / ou extras.
-- Detalhar também as funcionalidades que não conseguiu implementar e o motivo.
-- Caso tenha adicionado novas libs ou frameworks, descreva quais foram e porque dessa agregação.
+Armazenamento seguro dos dados no banco de dados PostgreSQL
 
-(Escreva aqui as instruções para que possamos corrigir sua prova, bem como qualquer outra observação sobre a prova que achar pertinente compartilhar)
+Mensagens claras de sucesso e erro para o usuário final
+
+Testes automatizados garantindo que o fluxo principal do sistema funcione corretamente
+
+Campos do Formulário:
+
+Nome completo (obrigatório)
+
+Endereço (obrigatório)
+
+Tipo de material reciclável (obrigatório)
+
+Data da coleta (obrigatória e deve ser igual ou maior que a data atual)
+
+Telefone de contato (obrigatório)
+
+E-mail (opcional)
+
+Etapas para Executar Localmente:
+
+Clonar o repositório do projeto
+
+Instalar as dependências com o comando: npm install
+
+Configurar a conexão com o banco PostgreSQL no arquivo de configuração
+
+Criar a tabela no banco com a seguinte estrutura:
+
+CREATE TABLE agendamentos ( id SERIAL PRIMARY KEY, nome VARCHAR(100) NOT NULL, endereco VARCHAR(200) NOT NULL, tipo_material VARCHAR(50) NOT NULL, data_agendamento DATE NOT NULL, telefone VARCHAR(20) NOT NULL, email VARCHAR(100), criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP );
+
+Iniciar o servidor com: npm start
+
+Abrir o arquivo agendamento.html no navegador
+
+Execução de Testes Automatizados:
+
+Instalar o Cypress: npm install cypress --save-dev
+
+Executar os testes com o comando: npx cypress open
+
+Selecionar o teste formulário e aguardar a execução automatizada
+
+Sugestões de Melhorias Futuras:
+
+Painel administrativo para visualização e gerenciamento dos agendamentos
+
+Filtros por data ou tipo de material
+
+Integração com autenticação de usuários
+
+Envio de confirmação por e-mail
+
+Deploy da aplicação em nuvem
+
+Autor do Projeto:
+
+Tiago Sousa
